@@ -111,8 +111,8 @@ class ProductManager {
   }
 
   getProductById(productId) {
-    const product = this.products.find((event) => event.id === productId);
-    product ? product : "Not found";
+    const product = this.products.find((product) => product.id === productId);
+    return product || "Not found";
   }
 }
 
@@ -136,3 +136,5 @@ productManager.addProduct(
 );
 
 console.log(productManager.getProducts());
+
+console.log(productManager.getProductById(1));
