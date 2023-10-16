@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 class TicketManager {
   #priceBaseGain = 0.15;
   constructor() {
@@ -138,3 +140,56 @@ productManager.addProduct(
 console.log(productManager.getProducts());
 
 console.log(productManager.getProductById(1));
+
+class UserManager {
+  constructor() {
+    this.path = "./users.json";
+  }
+  async getUsers() {
+    try {
+      if (fs.existsSync(this.path)) {
+        const users = await fs.promises.readFile(this.path, "utf-8");
+        const res = JSON.parse(users);
+        return res;
+      } else return [];
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async createUser(user) {
+    try {
+      const users = await this.getUsers();
+      users.push(user);
+      await fs.promises.writeFile(this.path, JSON.stringify(users));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+const userManager = new UserManager();
+
+const user1 = {
+  firstName: "Mauro",
+  lastName: "Caffesse",
+  age: 31,
+  course: "Desarrollo Backend",
+};
+
+const user2 = {
+  firstName: "Cande",
+  lastName: "Leogrande",
+  age: 25,
+  course: "Desarrollo Backend",
+};
+
+const test = async () => {
+  console.log("primer consulta", await userManager.getUsers());
+  await userManager.createUser(user1);
+  console.log("segunda consulta", await userManager.getUsers());
+  await userManager.createUser(user2);
+  console.log("tercera consulta", await userManager.getUsers());
+};
+
+test();
