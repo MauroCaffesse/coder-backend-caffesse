@@ -1,9 +1,9 @@
 [
   {
     "id": 1,
-    "title": "Pie",
+    "title": "Carrot Cake",
     "description": "Apple pie",
-    "price": 15,
+    "price": 10,
     "thumbnail": "https://placeimage.com",
     "code": 1,
     "stock": 8
@@ -78,15 +78,6 @@
     "price": 5,
     "thumbnail": "https://placeimage.com",
     "code": 9,
-    "stock": 50
-  },
-  {
-    "id": 10,
-    "title": "Cupcake",
-    "description": "Vanilla cupcake",
-    "price": 5,
-    "thumbnail": "https://placeimage.com",
-    "code": 10,
     "stock": 50
   }
 ]

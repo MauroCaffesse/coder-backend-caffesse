@@ -48,6 +48,7 @@ export class ProductManager {
 
       products.push(product);
       await fs.promises.writeFile(this.path, JSON.stringify(products));
+      return product;
     } catch (error) {
       console.log(error);
     }
@@ -64,12 +65,13 @@ export class ProductManager {
         throw new Error("Product not found");
       }
 
-      products[productIndex] = {
+      const updatedProduct = (products[productIndex] = {
         ...products[productIndex],
         ...updatedFields,
         id: productId,
-      };
+      });
       await fs.promises.writeFile(this.path, JSON.stringify(products));
+      return updatedProduct;
     } catch (error) {
       console.log(error);
     }
@@ -78,16 +80,14 @@ export class ProductManager {
   async deleteProduct(productId) {
     try {
       const products = await this.getProducts();
-      const productIndex = products.findIndex(
-        (product) => product.id === productId
+      if (!products.length) return "There are no products";
+      const productToDelete = products.find((prod) => prod.id === productId);
+      const filteredProducts = products.filter(
+        (prods) => prods.id !== productId
       );
 
-      if (productIndex === -1) {
-        throw new Error("Product not found");
-      }
-      products.splice(productIndex, 1);
-
-      await fs.promises.writeFile(this.path, JSON.stringify(products));
+      await fs.promises.writeFile(this.path, JSON.stringify(filteredProducts));
+      return productToDelete;
     } catch (error) {
       console.log(error);
     }
