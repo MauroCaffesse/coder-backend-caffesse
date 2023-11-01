@@ -16,6 +16,16 @@ export class ProductManager {
     }
   }
 
+  async getProductsByLimit(limit) {
+    try {
+      const products = await this.getProducts();
+      if (!limit || limit >= products.length) return products;
+      else return products.slice(0, limit);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async getProductById(productId) {
     try {
       const products = await this.getProducts();
@@ -25,12 +35,10 @@ export class ProductManager {
       console.log(error);
     }
   }
-  async addProduct(title, description, price, thumbnail, code, stock) {
+
+  async addProduct(obj) {
     try {
       const products = await this.getProducts();
-      if (!title || !description || !price || !thumbnail || !code || !stock) {
-        throw new Error("All fields must be completed.");
-      }
 
       if (products.some((product) => product.code === code)) {
         throw new Error("Code already exists. It must be unique.");
@@ -38,12 +46,8 @@ export class ProductManager {
       const maxId = await this.#getMaxId();
       const product = {
         id: maxId + 1,
-        title,
-        description,
-        price,
-        thumbnail,
-        code,
-        stock,
+        status: true,
+        ...obj,
       };
 
       products.push(product);
