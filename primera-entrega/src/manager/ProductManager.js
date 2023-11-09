@@ -40,9 +40,9 @@ export class ProductManager {
     try {
       const products = await this.getProducts();
 
-      if (products.some((product) => product.code === code)) {
-        throw new Error("Code already exists. It must be unique.");
-      }
+      // if (products.some((product) => product.code === code)) {
+      //   throw new Error("Code already exists. It must be unique.");
+      // }
       const maxId = await this.#getMaxId();
       const product = {
         id: maxId + 1,
